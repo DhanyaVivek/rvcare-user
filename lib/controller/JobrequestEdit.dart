@@ -124,7 +124,7 @@ class _JobRequestEditScreenState extends State<JobRequestEditScreen> {
         print("jkjjkjjkjkjk " + modelRequestservice.toString());
         modelRequestservice;
         if ((modelRequestservice) != '') {
-          Toast.show("Profile Updated sucessfully", duration: Toast.lengthShort, gravity:  Toast.bottom);
+          Toast.show("Edit job details completed successfully", duration: Toast.lengthShort, gravity:  Toast.bottom);
 
 
           Navigator.push(
