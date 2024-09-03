@@ -27,8 +27,10 @@ class Notificationlist {
   String? type;
   String? notifiableType;
   int? notifiableId;
-  Data? data;
-  Null? readAt;
+  String? estimateId;
+  String? title;
+  String? body;
+  String? readAt;
   String? createdAt;
   String? updatedAt;
 
@@ -37,7 +39,9 @@ class Notificationlist {
         this.type,
         this.notifiableType,
         this.notifiableId,
-        this.data,
+        this.estimateId,
+        this.title,
+        this.body,
         this.readAt,
         this.createdAt,
         this.updatedAt});
@@ -47,7 +51,9 @@ class Notificationlist {
     type = json['type'];
     notifiableType = json['notifiable_type'];
     notifiableId = json['notifiable_id'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    estimateId = json['estimate_id'];
+    title = json['title'];
+    body = json['body'];
     readAt = json['read_at'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -59,34 +65,12 @@ class Notificationlist {
     data['type'] = this.type;
     data['notifiable_type'] = this.notifiableType;
     data['notifiable_id'] = this.notifiableId;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
+    data['estimate_id'] = this.estimateId;
+    data['title'] = this.title;
+    data['body'] = this.body;
     data['read_at'] = this.readAt;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
-    return data;
-  }
-}
-
-class Data {
-  int? customerId;
-  String? title;
-  String? body;
-
-  Data({this.customerId, this.title, this.body});
-
-  Data.fromJson(Map<String, dynamic> json) {
-    customerId = json['customer_id'];
-    title = json['title'];
-    body = json['body'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['customer_id'] = this.customerId;
-    data['title'] = this.title;
-    data['body'] = this.body;
     return data;
   }
 }

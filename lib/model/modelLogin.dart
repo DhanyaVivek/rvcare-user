@@ -36,6 +36,7 @@ class UserData {
   String? landmark;
   int? otp;
   String? token;
+  int? stat;
 
   UserData(
       {this.id,
@@ -48,7 +49,8 @@ class UserData {
         this.address,
         this.landmark,
         this.otp,
-        this.token});
+        this.token,
+        this.stat});
 
   UserData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -62,6 +64,7 @@ class UserData {
     landmark = json['landmark'];
     otp = json['otp'];
     token = json['token'];
+    stat = json['stat'];
   }
 
   Map<String, dynamic> toJson() {
@@ -77,6 +80,7 @@ class UserData {
     data['landmark'] = this.landmark;
     data['otp'] = this.otp;
     data['token'] = this.token;
+    data['stat'] = this.stat;
     return data;
   }
 }

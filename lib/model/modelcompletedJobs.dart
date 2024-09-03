@@ -31,11 +31,16 @@ class Completedservices {
   String? description;
   String? typeWork;
   int? amnt;
-  String? completedDate;
   String? paymentDate;
   String? paymentTime;
   String? paymentMode;
   int? status;
+  String? estimateDate;
+  String? estTime;
+  String? serviceOffered;
+  String? servicePrice;
+  String? material;
+  String? materialPrice;
 
   Completedservices(
       {this.id,
@@ -46,11 +51,16 @@ class Completedservices {
         this.description,
         this.typeWork,
         this.amnt,
-        this.completedDate,
         this.paymentDate,
         this.paymentTime,
         this.paymentMode,
-        this.status});
+        this.status,
+        this.estimateDate,
+        this.estTime,
+        this.serviceOffered,
+        this.servicePrice,
+        this.material,
+        this.materialPrice});
 
   Completedservices.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -61,11 +71,16 @@ class Completedservices {
     description = json['description'];
     typeWork = json['type_work'];
     amnt = json['amnt'];
-    completedDate = json['completed_date'];
     paymentDate = json['payment_date'];
     paymentTime = json['payment_time'];
     paymentMode = json['payment_mode'];
     status = json['status'];
+    estimateDate = json['estimate_date'];
+    estTime = json['est_time'];
+    serviceOffered = json['service_offered'];
+    servicePrice = json['service_price'];
+    material = json['material'];
+    materialPrice = json['material_price'];
   }
 
   Map<String, dynamic> toJson() {
@@ -78,11 +93,16 @@ class Completedservices {
     data['description'] = this.description;
     data['type_work'] = this.typeWork;
     data['amnt'] = this.amnt;
-    data['completed_date'] = this.completedDate;
     data['payment_date'] = this.paymentDate;
     data['payment_time'] = this.paymentTime;
     data['payment_mode'] = this.paymentMode;
     data['status'] = this.status;
+    data['estimate_date'] = this.estimateDate;
+    data['est_time'] = this.estTime;
+    data['service_offered'] = this.serviceOffered;
+    data['service_price'] = this.servicePrice;
+    data['material'] = this.material;
+    data['material_price'] = this.materialPrice;
     return data;
   }
 }
