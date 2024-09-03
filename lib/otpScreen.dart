@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:rvcare/controller/myProfileScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
@@ -83,44 +84,56 @@ class _OTPScreenState extends State<OTPScreen> {
       }
     });
   }
+  apiFunc() async {
+    try {
+      final modelOtp = await OtpApiService.otpApiCall(context, widget.mobile, otpCode);
 
-  apiFunc() {
-          // print(widget.mobile);
-    OtpApiService.otpApiCall(
-        context,widget.mobile,otpCode)
-        .then((modelOtp) async {
-      try {
-               model = modelOtp;
-        if (modelOtp.message != null) {
+      if (!mounted) return; // Ensure the widget is still in the tree
 
-          setState(()  {
-            Global.shared.accessToken = modelOtp.token!;
+      model = modelOtp;
+      if (modelOtp.message != null) {
 
-            print("AccessToken:${Global.shared.accessToken}");
+        print(modelOtp.stat);
+        setState(() {
+          print("modell123");
+          Global.shared.accessToken = modelOtp.token ?? '';
 
-            Global.shared.userId = modelOtp.id.toString();
-            print("ID${Global.shared.userId}");
-            Global.shared.id = modelOtp.id.toString();
+          print("AccessToken: ${Global.shared.accessToken}");
 
-          });
+          Global.shared.userId = modelOtp.id?.toString() ?? '';
+          print("ID: ${Global.shared.userId}");
+          Global.shared.id = modelOtp.id?.toString() ?? '';
+          if (modelOtp.stat == 1 ) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return HomeScreenAftLogin();
+                },
+              ),
+            );
+          } else {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return MyProfileScreen(userid: modelOtp.id?.toString() ?? '');
+                },
+              ),
+            );
+          }
+        });
 
-          setPreferenceValues(modelOtp);
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return   HomeScreenAftLogin();
-              },
-            ),
-          );
-        }
-      } catch (e) {
-        print(e);
-        throw Exception('Failed');
+        setPreferenceValues(modelOtp);
+
+
       }
-    });
-
+    } catch (e) {
+      print("Error occurred: $e");
+      throw Exception('Failed to complete API call');
+    }
   }
+
 
 
   Widget build(BuildContext context) {
