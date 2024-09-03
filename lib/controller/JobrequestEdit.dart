@@ -27,7 +27,6 @@ class _JobRequestEditScreenState extends State<JobRequestEditScreen> {
   final TextEditingController typework = TextEditingController();
   final TextEditingController date = TextEditingController();
   final TextEditingController time= TextEditingController();
-  final TextEditingController timesection= TextEditingController();
   final TextEditingController location = TextEditingController();
   final TextEditingController address = TextEditingController();
   final TextEditingController mobile = TextEditingController();
@@ -42,15 +41,22 @@ class _JobRequestEditScreenState extends State<JobRequestEditScreen> {
     super.initState();
     OngoingJobDetailsApiCall();
   }
+  TimeOfDay? _selectedTime;
+  @override
+  void dispose() {
+    time.dispose();
+    super.dispose();
+  }
   Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
+    final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
-    if (picked != null) {
+
+    if (pickedTime != null && pickedTime != _selectedTime) {
       setState(() {
-        time.text = picked.format(context).split(' ')[0];
-        timesection.text = picked.format(context).split(' ')[1];
+        _selectedTime = pickedTime;
+        time.text = _selectedTime!.format(context); // Update the text field
       });
     }
   }
@@ -80,7 +86,7 @@ class _JobRequestEditScreenState extends State<JobRequestEditScreen> {
          // print(typework.text);
           date.text= result['date'].toString();
           time.text= result['time'].toString();
-          timesection.text= result['time_section'].toString();
+         // timesection.text= result['time_section'].toString();
           location.text= result['location'].toString();
           address.text= result['address'].toString();
           mobile.text= result['mobile'].toString();
@@ -107,7 +113,7 @@ class _JobRequestEditScreenState extends State<JobRequestEditScreen> {
       typework:typework.text,
       date:date.text,
       time:time.text,
-      section:timesection.text,
+      //section:timesection.text,
       mobile:mobile.text,
       address:address.text,
       location:location.text,
@@ -333,12 +339,12 @@ class _JobRequestEditScreenState extends State<JobRequestEditScreen> {
                                     DateTime? pickedDate = await showDatePicker(
                                       context: context, initialDate: DateTime.now(),
                                       firstDate: DateTime(1950), //DateTime.now() - not to allow to choose before today.
-                                      lastDate: DateTime.now(),
+                                      lastDate: DateTime.now().add(Duration(days: 365)),
                                     );
 
                                     if(pickedDate != null ){
                                       print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
-                                      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                                      String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
                                       print(formattedDate); //formatted date output using intl package =>  2021-03-16
                                       //you can implemen t different kind of Date Format here according to your requirement
 
@@ -370,7 +376,7 @@ class _JobRequestEditScreenState extends State<JobRequestEditScreen> {
                             Row(
                               children: [
                                 SizedBox(
-                                  width:size.width * 0.22,
+                                  width:size.width * 0.40,
                                   height: 53,
                                   child: TextFormField(
                                     controller: time,
@@ -389,7 +395,7 @@ class _JobRequestEditScreenState extends State<JobRequestEditScreen> {
                                       filled: true,
                                       counterText: "",
                                       border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(5.0),
+                                        borderRadius: BorderRadius.circular(10.0),
                                         borderSide: const BorderSide(
                                           width: 0,
                                           style: BorderStyle.none,
@@ -404,43 +410,7 @@ class _JobRequestEditScreenState extends State<JobRequestEditScreen> {
                                   ),
                                 ),
 
-                                SizedBox(
-                                  width: size.width* 0.15,
-                                  height: 53,
-                                  child: TextFormField(
-                                    controller: timesection,
 
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w300),
-                                    decoration: InputDecoration(
-                                      hintText: "AM/PM ",
-                                      hintStyle: const TextStyle(
-                                          fontFamily: "Roboto",
-                                          color: Colors.black54,
-                                          fontSize: 12.0,
-                                          fontWeight: FontWeight.w300),
-                                      fillColor: greyColor,
-                                      filled: true,
-                                      counterText: "",
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        borderSide: const BorderSide(
-                                          width: 0,
-                                          style: BorderStyle.none,
-                                        ),
-                                      ),
-                                    ),
-                                    keyboardType: TextInputType.number,
-                                    maxLength: 3,
-                                    onTap: () {
-                                      // _selectTime(context);
-
-                                   },
-
-                                  ),
-                                ),
                               ],
                             ),
 

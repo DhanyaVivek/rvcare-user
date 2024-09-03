@@ -51,8 +51,8 @@ class _CompletedJobDetailsState extends State<CompletedJobDetails> {
        // print('object');
         setState(() {
           _typework = result['type_work'].toString();
-          _date= result['date'].toString();
-          _time= result['time'].toString();
+          _date= result['payment_date'].toString();
+          _time= result['payment_time'].toString();
           _location= result['location'].toString();
           _address= result['address'].toString();
           _mobile= result['mobile'].toString();

@@ -7,6 +7,7 @@ import '../Utils/Connectivity.dart';
 import '../common/constant.dart';
 import '../model/modelprofiledetails.dart';
 import '../model/modelupdateprofile.dart';
+import 'homescreenAfterlogin.dart';
 import 'myProfileScreen.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -86,7 +87,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return MyProfileScreen(userid: widget.userid,);
+                return HomeScreenAftLogin();
               },
             ),
           );
@@ -124,7 +125,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return  MyProfileScreen(userid: widget.userid,);
+                  //  return  MyPr ofileScreen(userid: widget.userid,);
+                    return HomeScreenAftLogin();
                   },
                 ),
               );
@@ -349,3 +351,5 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 }
+
+

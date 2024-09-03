@@ -37,30 +37,34 @@ class _CompletedJobScreenState extends State<CompletedJobScreen> {
     });
   }
 
-  apiFunc() {
-    CompletedJobsApiServices.CompletedJobsApiCall(context, Global.shared.id)
-        .then((result) async {
-      try {
+  apiFunc() async {
+    try {
+      final result = await CompletedJobsApiServices.CompletedJobsApiCall(context, Global.shared.id);
 
-        if (result['id'] != '') {
-          setState(() {
-            print('hiihh');
-            completedservices = ((result[ 'completedservices'] ?? []) as List)
-                .map((li) => Completedservices.fromJson(li))
-                .toList();
-            print(completedservices.length);
+      if (!mounted) return; // Check if the widget is still in the widget tree
 
-          });
-        } else {
-          // Toast.show((value['message'].toString()),
-          //     duration: Toast.lengthShort, gravity: Toast.bottom);
-        }
-        // return _earnings;
-      } catch (e) {
-        //await progressDialog.hide();
+      if (result['id'] != '') {
+        //print('Type of id: ${result['id'].runtimeType}');  // Check the type and value
+     //   print('hh');
+        setState(() {
+          completedservices = ((result['completedservices'] ?? []) as List)
+              .map((li) => Completedservices.fromJson(li))
+              .toList();
+          print(completedservices.length);
+        });
+      } else {
+        // Handle the case when 'id' is null or empty
+        // Toast.show(result['message'].toString(),
+        //     duration: Toast.lengthShort, gravity: Toast.bottom);
       }
-    });
+    } catch (e) {
+      // Handle the error here
+      print("Error occurred: $e");
+      // await progressDialog.hide();
+    }
   }
+
+
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
@@ -151,7 +155,7 @@ class _CompletedJobScreenState extends State<CompletedJobScreen> {
                                     left: 20,
                                     child: Row(
                                       children:  [
-                                        Text('Completed on: ${completedservices[index].completedDate.toString()}', style: const TextStyle(
+                                        Text('Completed on: ${completedservices[index].paymentDate.toString()}', style: const TextStyle(
                                           color: fontcolor,
                                           fontSize: 13,
                                           fontWeight: FontWeight.w500,
@@ -168,7 +172,7 @@ class _CompletedJobScreenState extends State<CompletedJobScreen> {
                                     left: 20,
                                     child: Row(
                                       children:  [
-                                        Text('Time :', style: const TextStyle(
+                                        Text('Time :${completedservices[index].paymentTime.toString()}', style: const TextStyle(
                                           color: fontcolor,
                                           fontSize: 13,
                                           fontWeight: FontWeight.w500,
@@ -220,7 +224,7 @@ class _CompletedJobScreenState extends State<CompletedJobScreen> {
                                     left: 20,
                                     child: Row(
                                       children:  [
-                                        Text('Payment :  ', style:  TextStyle(
+                                        Text('Payment : ', style:  TextStyle(
                                           color: fontcolor,
                                           fontSize: 13,
                                           fontWeight: FontWeight.w500,

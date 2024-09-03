@@ -31,17 +31,23 @@ class _JobRequestScreenState extends State<JobRequestScreen> {
 
   bool _validate = false;
   String dateFormat = '';
-
-
+ // String _selectedTime= '';
+  TimeOfDay? _selectedTime;
+  @override
+  void dispose() {
+    timeTextController.dispose();
+    super.dispose();
+  }
   Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
+    final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
-    if (picked != null) {
+
+    if (pickedTime != null && pickedTime != _selectedTime) {
       setState(() {
-        timeTextController.text = picked.format(context).split(' ')[0];
-        sectionTextController.text = picked.format(context).split(' ')[1];
+        _selectedTime = pickedTime;
+        timeTextController.text = _selectedTime!.format(context); // Update the text field
       });
     }
   }
@@ -256,7 +262,7 @@ class _JobRequestScreenState extends State<JobRequestScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          width: size.width * 0.39,
+                          width: size.width * 0.42,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -299,16 +305,18 @@ class _JobRequestScreenState extends State<JobRequestScreen> {
                                       DateTime? pickedDate = await showDatePicker(
                                         context: context, initialDate: DateTime.now(),
                                         firstDate: DateTime(1950), //DateTime.now() - not to allow to choose before today.
-                                        lastDate: DateTime.now(),
+                                        lastDate: DateTime.now().add(Duration(days: 365)),
                                       );
 
                                       if(pickedDate != null ){
                                         print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
-                                        String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                                        String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
                                         print(formattedDate); //formatted date output using intl package =>  2021-03-16
                                         //you can implemen t different kind of Date Format here according to your requirement
 
-
+                                        setState(() {
+                                          dateTextController.text = formattedDate; //set output date to TextField value.
+                                        });
                                       }else{
                                         print("Date is not selected");
                                       }
@@ -335,7 +343,7 @@ class _JobRequestScreenState extends State<JobRequestScreen> {
                             Row(
                               children: [
                                 SizedBox(
-                                  width:size.width * 0.18,
+                                  width:size.width * 0.45,
                                   height: 45,
                                   child: TextFormField(
                                     controller: timeTextController,
@@ -372,46 +380,46 @@ class _JobRequestScreenState extends State<JobRequestScreen> {
 
                                   ),
                                 ),
-                                SizedBox(height: 20),
-                                SizedBox(
-                                  width: size.width* 0.15,
-                                  height: 45,
-                                  child: TextFormField(
-                                    controller: sectionTextController,
-
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w300),
-                                    decoration: InputDecoration(
-                                      hintText: "AM/PM ",
-                                      hintStyle: const TextStyle(
-                                          fontFamily: "Roboto",
-                                          color: Colors.black54,
-                                          fontSize: 12.0,
-                                          fontWeight: FontWeight.w300),
-                                      fillColor: greyColor,
-                                      filled: true,
-                                      counterText: "",
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        borderSide: const BorderSide(
-                                          width: 0,
-                                          style: BorderStyle.none,
-                                        ),
-                                      ),
-                                    ),
-                                    keyboardType: TextInputType.number,
-                                    maxLength: 3,
-                                    onTap: () {
-                                     // _selectTime(context);
-
-
-
-                                    },
-
-                                  ),
-                                ),
+                                // SizedBox(height: 20),
+                                // SizedBox(
+                                //   width: size.width* 0.15,
+                                //   height: 45,
+                                //   child: TextFormField(
+                                //     controller: sectionTextController,
+                                //
+                                //     style: const TextStyle(
+                                //         color: Colors.black,
+                                //         fontSize: 14.0,
+                                //         fontWeight: FontWeight.w300),
+                                //     decoration: InputDecoration(
+                                //       hintText: "AM/PM ",
+                                //       hintStyle: const TextStyle(
+                                //           fontFamily: "Roboto",
+                                //           color: Colors.black54,
+                                //           fontSize: 12.0,
+                                //           fontWeight: FontWeight.w300),
+                                //       fillColor: greyColor,
+                                //       filled: true,
+                                //       counterText: "",
+                                //       border: OutlineInputBorder(
+                                //         borderRadius: BorderRadius.circular(10.0),
+                                //         borderSide: const BorderSide(
+                                //           width: 0,
+                                //           style: BorderStyle.none,
+                                //         ),
+                                //       ),
+                                //     ),
+                                //     keyboardType: TextInputType.number,
+                                //     maxLength: 3,
+                                //     onTap: () {
+                                //      // _selectTime(context);
+                                //
+                                //
+                                //
+                                //     },
+                                //
+                                //   ),
+                                // ),
                               ],
                             ),
 

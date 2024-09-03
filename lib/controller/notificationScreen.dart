@@ -43,7 +43,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         if (result['id'] != '') {
           setState(() {
             print('hiihh');
-            notificationlist = ((result[ 'notificationlist'] ?? []) as List)
+            notificationlist = ((result['notificationlist'] ?? []) as List)
                 .map((li) => Notificationlist.fromJson(li))
                 .toList();
             print(notificationlist.length);
@@ -55,7 +55,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
         }
         // return _earnings;
       } catch (e) {
-        //await progressDialog.hide();
+        // Handle the error here
+        print("Error occurred: $e");
+        // await progressDialog.hide();
       }
     });
   }
@@ -121,7 +123,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                   left: 60,
                                   child: Row(
                                     children:  [
-                                      Text(notificationlist[index].data!.title.toString(), style: const TextStyle(
+                                      Text(notificationlist[index].title.toString(), style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
@@ -146,7 +148,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     children:  [
                                       Container(
                                         width:size.width* 0.7,
-                                        child: Text(notificationlist[index].data!.body.toString(), style: const TextStyle(
+                                        child: Text(notificationlist[index].body.toString(), style: const TextStyle(
                                           color: Color(0xff868ca0),
                                           fontSize: 11,
                                           fontWeight: FontWeight.w400,
